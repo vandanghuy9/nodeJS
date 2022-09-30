@@ -24,7 +24,7 @@ app.get('/api/products/:productID',(req,res)=>{
             return product; // if product.id == request parameter return that product obj
         }
     });
-    res.send(singleProduct);
+    res.json(singleProduct);
 });
 app.all('*',function(req,res){
     res.status(404).send("404 not found");
