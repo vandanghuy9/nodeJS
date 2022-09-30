@@ -26,6 +26,23 @@ app.get('/api/products/:productID',(req,res)=>{
     });
     res.json(singleProduct);
 });
+app.get('/api/v1/query',function(req,res){
+    const {search,limit} = req.query;
+    let sortedProducts = [...products];
+    if (search){// query has search
+        sortedProducts = sortedProducts.filter(function(product){
+            return product.name.startsWith(search);
+        });
+
+    }
+    if(limit){ // query has limit
+        sortedProducts = sortedProducts.slice(0,Number(limit));
+    }
+    if (sortedProducts.length <1){ // if found no result
+        return res.status(200).json({'success':'true','data':[]});
+    }
+    return res.status(200).json(sortedProducts);
+});
 app.all('*',function(req,res){
     res.status(404).send("404 not found");
 });
